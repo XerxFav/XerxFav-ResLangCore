@@ -33,8 +33,8 @@ jobs:
         pytest --cov=arca_core --cov=arca_interpreter --cov=arca_memory tests/ > coverage.txt
         cat coverage.txt
 
--    name: Run tests with coverage
-     run: |
-       export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-       pytest --cov=arca_core --cov=arca_interpreter --cov=arca_memory tests/
+-     name: Run tests with coverage
+      run: |
+        export PYTHONPATH="${PYTHONPATH}:$(pwd)"
+        pytest --cov=arca_core --cov=arca_interpreter --cov=arca_memory tests/
 
