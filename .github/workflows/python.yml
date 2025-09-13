@@ -9,7 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v3
@@ -28,7 +27,7 @@ jobs:
       run: |
         pytest tests/
 
-      name: Run tests with coverage
+    - name: Run tests with coverage
       run: |
         export PYTHONPATH="${PYTHONPATH}:$(pwd)"
         pytest --cov=arca_core --cov=arca_interpreter --cov=arca_memory tests/ > coverage.txt
