@@ -27,3 +27,8 @@ jobs:
     - name: Run tests
       run: |
         pytest tests/
+
+    - name: Run tests with coverage
+      run: |
+        pytest --cov=arca_core --cov=arca_interpreter --cov=arca_memory tests/ > coverage.txt
+        cat coverage.txt
