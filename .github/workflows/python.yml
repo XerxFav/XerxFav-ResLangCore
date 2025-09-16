@@ -32,3 +32,11 @@ jobs:
         export PYTHONPATH="${PYTHONPATH}:$(pwd)"
         pytest --cov=arca_core --cov=arca_interpreter --cov=arca_memory tests/ > coverage.txt
         cat coverage.txt
+
+    - name: Run schema tests
+      run: |
+        pytest tests/test_schema.py --cov=arca_fieldcore --cov-report=term
+
+    - name: Run evaluator tests
+      run: |
+        pytest tests/test_evaluator.py --cov=arca_interpreter --cov-report=term
