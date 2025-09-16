@@ -5,22 +5,41 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-      - name: Run tests with coverage
-        run: |
-          export PYTHONPATH=$(pwd)
-          pytest --cov=arca_core --cov-report=term --cov-report=html
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v3
-        with:
-          name: htmlcov
-          path: htmlcov/
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run tests with coverage
+      run: |
+        export PYTHONPATH=$(pwd)
+        pytest --cov=arca_core --cov-report=term --cov-report=html tests/
+        cp -r htmlcov/ coverage_html/
+
+    - name: Phase validation
+      run: python arca_fieldcore/generator.py
+
+    - name: Generate ontology
+      run: python arca_fieldcore/generate_ontology.py
+
+    - name: Upload coverage report
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-html
+        path: coverage_html/
+
+    - name: Upload ontology
+      uses: actions/upload-artifact@v3
+      with:
+        name: ontology
+        path: ontology.md
