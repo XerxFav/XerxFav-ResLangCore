@@ -1,4 +1,4 @@
-name: ArcaLang CI
+name: ArcaLang Phase-Space CI
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -23,11 +23,12 @@ jobs:
         run: pytest tests/test_chronotope.py --cov=arca_core
 
   quantum-interpreter:
+    needs: quantum-core
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -38,11 +39,12 @@ jobs:
 
   # 🔢 Logical Phase
   logical-core:
+    needs: quantum-interpreter
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -52,11 +54,12 @@ jobs:
         run: pytest tests/test_phase.py --cov=arca_core
 
   logical-fieldcore:
+    needs: logical-core
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -64,16 +67,17 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run schema tests
         run: pytest tests/test_schema.py --cov=arca_fieldcore
-      - name: Run fieldmap
+      - name: Generate fieldmap
         run: python arca_fieldcore/fieldmap.py
 
   # 🧩 Ontological Phase
   ontological:
+    needs: logical-fieldcore
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -84,8 +88,10 @@ jobs:
       - name: Generate ontology
         run: python arca_fieldcore/generate_ontology.py
       - name: Validate ontology
-        run: grep "## Ontological Model" ontology.md || echo "Missing Ontological Model"
-      - name: Build docs
+        run: |
+          grep "## Ontological Model" ontology.md || echo "Missing Ontological Model"
+          grep "## Modules" ontology.md || echo "Missing Modules Section"
+      - name: Build Sphinx docs
         run: |
           cp ontology.md docs/
           cp ci_phase_report.md docs/ || echo "Report not yet generated"
@@ -94,11 +100,12 @@ jobs:
 
   # 📦 Memory Phase
   memory:
+    needs: ontological
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
@@ -109,22 +116,25 @@ jobs:
 
   # 📜 Documentation Phase
   docs-update:
+    needs: memory
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
+      - name: Install Graphviz
+        run: sudo apt-get update && sudo apt-get install -y graphviz
       - name: Install dependencies
         run: pip install -r requirements.txt
-      - name: Generate docs
+      - name: Generate docs and CI report
         run: python scripts/generate_docs.py
       - name: Commit updates
         run: |
           git config --global user.name "ArcaBot"
           git config --global user.email "arca@users.noreply.github.com"
-          git add README.md docs/ci_phase_report.md
-          git commit -m "📜 Update README and CI report" || echo "No changes"
+          git add README.md docs/ci_phase_report.md docs/source/_static/ci_phase_map.svg
+          git commit -m "📜 Update README, CI report, and phase map" || echo "No changes"
           git push

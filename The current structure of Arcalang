@@ -1,0 +1,104 @@
+🧠 Текущая структура ArcaLang
+Модуль	Назначение
+arca_core/	Фазовая логика (phase.py), хронотопы (chronotope.py), заголовки (headers.py)
+arca_fieldcore/	Генерация онтологии (generate_ontology.py), фазовые правила (schema.py)
+arca_interpreter/	Интерпретация переходов (evaluator.py)
+arca_memory/	Хранилище фаз (storage.py)
+docs/	Спецификация (specification.md), Sphinx-документация
+tests/	Покрытие всех фазовых компонентов
+ontology.md	Сгенерированная онтология
+Project_structure.txt	Описание архитектуры проекта
+
+🔁 Связь с GitHub-репозиторием
+
+Репозиторий 🔁 Связь с GitHub-репозиторием
+
+Репозиторий https://github.com/XerxFav/XerxFav-ResLangCore
+
+содержит описание:
+
+    “Фазовый язык мышления. Ядро, интерпретатор, память.”
+
+        🔮 Следующие фазы развития ArcaLang
+🔹 1. fieldmap.py — визуальный DSL фазовых связей
+
+Создаём граф переходов, основанный на schema.py:
+
+# fieldmap.py — визуализация фазовых связей
+
+from arca_fieldcore import schema
+
+PHASES = ["neutral", "positive", "negative"]
+
+def render_map():
+    for from_phase in PHASES:
+        for to_phase in PHASES:
+            if schema.is_valid_transition(from_phase, to_phase):
+                print(f"{from_phase} → {to_phase}")
+
+if __name__ == "__main__":
+    render_map()
+📌 Можно расширить до .dot, .json, или SVG-графа.
+
+🔹 2. arca_lang_spec.md — спецификация языка
+
+🔹 3. CI-расширение
+Добавим фазу:
+
+- name: Run fieldmap
+  run: python arca_fieldcore/fieldmap.py
+
+И загрузим как артефакт:
+
+- name: Upload fieldmap
+  uses: actions/upload-artifact@v3
+  with:
+    name: fieldmap
+    path: fieldmap_output.txt
+Хочешь, я помогу с генерацией arca_lang_spec.md, оформлением fieldmap.py, или расширением PhaseEvaluator до поддержки сценариев? Ты ведёшь — я синтезирую.
+
+🔢 Logical Phase — Структура переходов:
+
+{fieldmap}
+🧩 Ontological Phase — Структура языка
+
+✔️ ontology.md содержит ключевые секции ✔️ Sphinx-документация собрана 📎 Артефакт: docs/build/html/
+📊 Сводка фаз
+Фаза	Статус	Артефакты
+Quantum	✅	—
+Logical	✅	fieldmap_output.txt, SVG
+Ontological	✅	ontology.md, docs/
+
+""" with open("ci_phase_report.md", "w") as f: f.write(report)
+Код
+📌 Это вставит реальные результаты тестов и переходов в отчёт.
+
+---
+
+## 🖼️ 2. Встраивание SVG-графа в Markdown
+
+SVG нельзя встроить напрямую в GitHub Markdown как `<img>` из локального файла, но можно:
+
+- Скопировать `fieldmap.svg` в `docs/`
+- Вставить ссылку в `ci_phase_report.md`:
+
+```markdown
+## 🔢 Logical Phase — SVG-граф переходов
+
+![PhaseMap](docs/fieldmap.svg)
+🌐 3. Автоматическая публикация в GitHub Pages
+
+🔹 В ci_phase_report.md и fieldmap.svg должны быть скопированы в docs/:🔹 Включи GitHub Pages:
+
+    Перейди в Settings → Pages
+
+    Source: Deploy from a branch
+
+    Branch: main, Folder: /docs
+
+🔹 Добавь в CI шаг публикации (если используешь peaceiris/actions-gh-pages):- name: Deploy to GitHub Pages
+  uses: peaceiris/actions-gh-pages@v3
+  with:
+    github_token: ${{ secrets.GITHUB_TOKEN }}
+    publish_dir: ./docs
+📌 Теперь ci_phase_report.md и fieldmap.svg будут доступны по адресу: https://<username>.github.io/<repo>/ci_phase_report.md

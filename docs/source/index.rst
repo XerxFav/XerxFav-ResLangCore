@@ -15,3 +15,13 @@ documentation for details.
    :maxdepth: 2
    :caption: Contents:
 
+.. image:: _static/fieldmap.svg
+   :alt: PhaseMap
+
+.. include:: ../../docs/ci_phase_report.md
+   :literal:
+.. image:: _static/ci_phase_map.svg
+   :alt: CI Phase Map
+.. image:: _static/ci_phase_map.svg
+   :alt: CI Phase Map
+   :align: center

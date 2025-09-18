@@ -1,0 +1,21 @@
+
+
+digraph CI_Phases {
+  rankdir=LR;
+  node [shape=box, style=filled, fontname="Segoe UI"];
+
+  Quantum_Core [label="🧬 Quantum Core"];
+  Quantum_Interpreter [label="🧬 Quantum Interpreter"];
+  Logical_Core [label="🔢 Logical Core"];
+  Logical_Fieldcore [label="🔢 Logical Fieldcore"];
+  Ontological [label="🧩 Ontological"];
+  Memory [label="📦 Memory"];
+  Docs_Update [label="📜 Docs Update"];
+
+  Quantum_Core -> Quantum_Interpreter;
+  Quantum_Interpreter -> Logical_Core;
+  Logical_Core -> Logical_Fieldcore;
+  Logical_Fieldcore -> Ontological;
+  Ontological -> Memory;
+  Memory -> Docs_Update;
+}
