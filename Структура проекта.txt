@@ -1,0 +1,96 @@
+/home/arca/ResLang/
+└── ArcaLang/
+    ├── arca_core/
+    ├── arca_interpreter/
+    ├── arca_memory/
+    ├── arca_langlib/
+    ├── arca_fieldcore/
+    ├── tests/
+    ├── docs/
+    └── ...
+
+
+ArcaLang/
+├── arca_core/               # Фазовая логика: Chronotope, Phase, переходы
+│   ├── chronotope.py
+│   ├── phase.py
+│   └── ...
+│
+├── arca_fieldcore/          # Генеративное ядро: поля, взаимодействия, симметрии
+│   ├── field.py
+│   ├── interaction.py
+│   ├── quantization.py
+│   ├── topology.py
+│   └── symmetry.py
+│
+├── arca_interpreter/        # Интерпретатор: исполнение фазовых выражений
+│   ├── evaluator.py
+│   └── ...
+│
+├── arca_memory/             # Хранилище: фиксация фазовых переходов, история
+│   ├── storage.py
+│   └── ...
+│
+├── arca_langlib/            # Дисциплинарная библиотека: внутренний MathLab
+│   ├── physics/
+│   │   ├── mechanics.py
+│   │   ├── quantum.py
+│   │   ├── thermodynamics.py
+│   │   └── relativity.py
+│   ├── astrophysics/
+│   │   ├── stellar.py
+│   │   ├── cosmology.py
+│   │   ├── blackholes.py
+│   │   └── spacetime.py
+│   ├── mathematics/
+│   │   ├── algebra.py
+│   │   ├── calculus.py
+│   │   ├── logic.py
+│   │   └── topology.py
+│   ├── chemistry/
+│   │   ├── molecular.py
+│   │   ├── reactions.py
+│   │   └── quantum_chem.py
+│   ├── biology/
+│   │   ├── genetics.py
+│   │   ├── systems.py
+│   │   └── bioinformatics.py
+│   ├── computing/
+│   │   ├── ternary.py
+│   │   ├── quantum_structs.py
+│   │   └── reslang_objects.py
+│   └── general_field_theory/   # Prime-отдел: общая теория полей
+│       ├── generators.py
+│       ├── field_models.py
+│       ├── phase_dynamics.py
+│       └── invariants.py
+│
+├── tests/                   # Фазовые и дисциплинарные тесты
+│   ├── test_chronotope.py
+│   ├── fieldcore/
+│   │   └── test_field.py
+│   ├── langlib/
+│   │   ├── physics/test_quantum.py
+│   │   ├── astrophysics/test_cosmology.py
+│   │   └── ...
+│   └── ...
+│
+├── docs/                    # Документация: спецификация, онтология, API
+│   ├── specification.md
+│   ├── source/
+│   │   ├── conf.py
+│   │   ├── index.rst
+│   │   └── langlib/
+│   │       ├── physics.rst
+│   │       ├── fieldcore.rst
+│   │       └── ...
+│   └── ...
+│
+├── .github/                 # CI-интеграция: тесты, coverage, отчёты
+│   └── workflows/
+│       └── test.yml
+│
+├── coverage.txt             # Фазовое покрытие: lcov-отчёт
+├── requirements.txt         # Зависимости: pytest, coverage, sphinx и др.
+├── README.md                # Общее описание проекта
+└── LICENSE                  # Лицензия

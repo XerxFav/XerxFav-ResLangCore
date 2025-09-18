@@ -1,0 +1,77 @@
+# 🧭 ArcaLang — Фазовая структура проекта
+автогенерированная карта проекта ArcaLang с фазовыми тегами, отражающими онтологическую структуру каждого модуля:
+ResLang/
+├── arca_core/                        # 🔢 [Logical] — базовая фазовая логика
+│   ├── chronotope.py                # 🧬 [Quantum] — хронотопы и временные структуры
+│   ├── chronotope.py,cover          # 🧪 [Test] — покрытие хронотопов
+│   ├── headers.py                   # 🧩 [Ontological] — онтологические заголовки
+│   ├── phase.py                     # 🔢 [Logical] — фазовая логика
+│   ├── phase.py,cover               # 🧪 [Test] — покрытие фаз
+│   └── __pycache__/                 # 📁 [Other] — байт-кэш
+│
+├── arca_fieldcore/                  # 🧩 [Ontological] — генерация и валидация онтологии
+│   ├── fieldmap.py                  # 🔢 [Logical] — визуализация фазовых переходов
+│   ├── generate_ontology.py         # 🧩 [Ontological] — генерация ontology.md
+│   ├── generator.py                 # 🔢 [Logical] — фазовая валидация
+│   └── schema.py                    # 🔢 [Logical] — правила переходов
+│
+├── arca_interpreter/                # 🧬 [Quantum] — интерпретация фазовых сценариев
+│   └── evaluator.py                 # 🧬 [Quantum] — PhaseEvaluator с run_scenario()
+│
+├── arca_memory/                     # 📦 [Memory] — хранилище фаз
+│   └── storage.py                   # 📦 [Memory] — модуль хранения
+│
+├── docs/                            # 📜 [Docs] — документация и публикация
+│   ├── specification.md             # 📜 [Docs] — спецификация языка
+│   ├── Makefile                     # 📜 [Docs] — сборка Sphinx
+│   ├── make.bat                     # 📜 [Docs] — Windows сборка
+│   └── source/
+│       ├── conf.py                  # 📜 [Docs] — конфигурация Sphinx
+│       └── index.rst                # 📜 [Docs] — главная страница
+│
+├── htmlcov/                         # 🧪 [Test] — HTML-отчёт покрытия
+│   └── [coverage HTML files]        # 🧪 [Test]
+│
+├── scripts/                         # ⚙️ [CI] — служебные скрипты
+│   └── generate_ci_report.py        # ⚙️ [CI] — генерация ci_phase_report.md
+│
+├── tests/                           # 🧪 [Test] — фазовое покрытие
+│   ├── test_chronotope.py           # 🧪 [Test] — хронотопы
+│   ├── test_evaluator.py            # 🧪 [Test] — интерпретатор
+│   ├── test_phase.py                # 🧪 [Test] — фазовая логика
+│   ├── test_schema.py               # 🧪 [Test] — переходы
+│   └── __pycache__/                 # 📁 [Other] — кэш тестов
+│
+├── .github/                         # ⚙️ [CI] — CI-интеграция
+│   └── workflows/
+│       ├── arca_phases.yml          # ⚙️ [CI] — фазовое мышление: quantum/logical/ontological
+│       └── python.yml               # ⚙️ [CI] — модульные тесты и отчёт
+│
+├── arca_lang_spec.md                # 🧩 [Ontological] — спецификация языка
+├── ontology.md                      # 🧩 [Ontological] — сгенерированная онтология
+├── ci_phase_report.md               # ⚙️ [CI] — фазовый отчёт CI
+├── README.md                        # 📜 [Docs] — описание проекта
+├── LICENSE                          # 📁 [Other] — лицензия
+├── requirements.txt                 # ⚙️ [CI] — зависимости
+├── coverage.txt                     # 🧪 [Test] — текстовый отчёт покрытия
+├── Project_structure.txt            # 📜 [Docs] — эта карта
+├── Beseda_*.txt / .py               # 📁 [Other] — исследовательские заметки
+├── token.txt                        # 📁 [Other] — служебный токен
+└── '🧠 Текущая структура ArcaLang'   # 📜 [Docs] — визуальная карта
+📌 Фазовые теги:
+
+    🧬 Quantum — интерпретация, хронотопы, сценарии
+
+    🔢 Logical — фазовая логика, переходы, визуализация
+
+    🧩 Ontological — онтология, спецификация, headers
+
+    📦 Memory — хранилище фаз
+
+    🧪 Test — тесты и покрытие
+
+    📜 Docs — документация
+
+    ⚙️ CI — CI-интеграция и отчёты
+
+    📁 Other — вспомогательные и архивные файлы

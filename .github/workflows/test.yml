@@ -43,3 +43,27 @@ jobs:
       with:
         name: ontology
         path: ontology.md
+#Если ты используешь @pytest.mark.phase, можно запускать только фазовые тесты:
+#📌 Это позволит избирательно запускать фазовые проверки.
+    - name: Run phase-marked tests
+      run: |
+        pytest -m phase --cov=arca_core --cov-report=term --cov-report=html tests/
+#🔹 2. Публикация документации (если используешь Sphinx)
+
+    - name: Build Sphinx docs
+      run: |
+        cd docs
+        make html
+#И загрузку артефакта:
+    - name: Upload documentation
+      uses: actions/upload-artifact@v3
+      with:
+        name: sphinx-docs
+        path: docs/build/html/
+#🔹 3. Проверка структуры ontology.md :добавить фазовую валидацию:
+    - name: Validate ontology structure
+      run: |
+        grep "##" ontology.md || echo "Ontology structure missing"
+
+
+

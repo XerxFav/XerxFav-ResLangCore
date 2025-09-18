@@ -1,4 +1,4 @@
-name: Arca CI
+name: ArcaLang CI
 
 on:
   push:
@@ -7,36 +7,118 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  core:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.11'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
-    - name: Run tests
-      run: |
-        pytest tests/
+      - name: Run core tests
+        run: pytest tests/test_chronotope.py tests/test_phase.py --cov=arca_core
 
-    - name: Run tests with coverage
-      run: |
-        export PYTHONPATH="${PYTHONPATH}:$(pwd)"
-        pytest --cov=arca_core --cov=arca_interpreter --cov=arca_memory tests/ > coverage.txt
-        cat coverage.txt
+  interpreter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
-    - name: Run schema tests
-      run: |
-        pytest tests/test_schema.py --cov=arca_fieldcore --cov-report=term
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Run evaluator tests
-      run: |
-        pytest tests/test_evaluator.py --cov=arca_interpreter --cov-report=term
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run interpreter tests
+        run: pytest tests/test_evaluator.py --cov=arca_interpreter
+
+  fieldcore:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate ontology
+        run: python arca_fieldcore/generate_ontology.py
+
+      - name: Run schema tests
+        run: pytest tests/test_schema.py --cov=arca_fieldcore
+
+      - name: Run fieldmap
+        run: python arca_fieldcore/fieldmap.py
+
+      - name: Upload fieldmap
+        uses: actions/upload-artifact@v3
+        with:
+          name: fieldmap
+          path: fieldmap_output.txt
+
+      - name: Upload ontology
+        uses: actions/upload-artifact@v3
+        with:
+          name: ontology
+          path: ontology.md
+
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate CI Phase Report
+        run: python scripts/generate_ci_report.py
+
+      - name: Upload CI Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: ci-phase-report
+          path: ci_phase_report.md
+  structure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Generate README structure
+        run: python scripts/generate_structure.py
+
+      - name: Commit updated README
+        run: |
+          git config --global user.name "ArcaBot"
+          git config --global user.email "arca@users.noreply.github.com"
+          git add README.md
+          git commit -m "🧭 Update README with phase structure" || echo "No changes"
+          git push

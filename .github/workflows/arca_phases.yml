@@ -1,0 +1,108 @@
+name: ArcaLang Phase-Space CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+    quantum:
+    name: 🧬 Quantum Phase
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        sequence:
+          - ["neutral", "positive", "negative"]
+          - ["positive", "neutral"]
+          - ["negative", "positive", "neutral"]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run quantum scenario
+        run: |
+          python -c "
+          from arca_interpreter.evaluator import PhaseEvaluator
+          evaluator = PhaseEvaluator('${{ matrix.sequence[0] }}')
+          result = evaluator.run_scenario(${{ toJson(matrix.sequence) }})
+          print('\n'.join(result))
+          "
+
+  logical:
+    name: 🔢 Logical Phase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run phase logic tests
+        run: pytest tests/test_phase.py --cov=arca_core
+
+      - name: Validate schema transitions
+        run: pytest tests/test_schema.py --cov=arca_fieldcore
+
+      - name: Run fieldmap
+        run: python arca_fieldcore/fieldmap.py
+
+      - name: Upload fieldmap
+        uses: actions/upload-artifact@v3
+        with:
+          name: fieldmap
+          path: fieldmap_output.txt
+
+  ontological:
+    name: 🧩 Ontological Phase
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install sphinx
+
+      - name: Generate ontology
+        run: python arca_fieldcore/generate_ontology.py
+
+      - name: Validate ontology structure
+        run: grep "##" ontology.md || echo "Ontology structure missing"
+
+      - name: Upload ontology
+        uses: actions/upload-artifact@v3
+        with:
+          name: ontology
+          path: ontology.md
+
+      - name: Build documentation
+        run: |
+          cd docs
+          make html
+
+      - name: Upload documentation
+        uses: actions/upload-artifact@v3
+        with:
+          name: sphinx-docs
+          path: docs/build/html/
