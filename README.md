@@ -1,10 +1,11 @@
-HEAD
+
 # 🌌 ArcaLang
 
 [![CI](https://github.com/XerxFav/XerxFav-ResLangCore/actions/workflows/test.yml/badge.svg)](https://github.com/XerxFav/XerxFav-ResLangCore/actions)
 [![Codeberg](https://codeberg.org/XerxFav/XerxFav-ResLangCore/badges/main/pipeline.svg)](https://codeberg.org/XerxFav/XerxFav-ResLangCore)
 
 **ArcaLang** — онтологический язык, объединяющий фазовую логику, тернарные вычисления и CI-модули.
+
 
 
 # ArcaLang — Phase-Space Programming Framework
@@ -34,20 +35,30 @@ ResLang/
 
 
 
-eef0aa1 (🧩 [phase:migration] 2025-10-10 Автоматическая синхронизация)
 
-<<<<<<< HEAD
 ## 🧠 Структура
-=======
+
 ![🧬 Quantum Phase](https://img.shields.io/badge/phase-quantum-blueviolet)
 ![🔢 Logical Phase](https://img.shields.io/badge/phase-logical-lightgrey)
 ![🧩 Ontological Phase](https://img.shields.io/badge/phase-ontological-yellow)
 ![📦 Memory Phase](https://img.shields.io/badge/phase-memory-green)
 ![📜 Docs Phase](https://img.shields.io/badge/phase-docs-orange)
 ![⚙️ CI Phase](https://img.shields.io/badge/phase-ci-blue)
->>>>>>> 7d21d0d (Фазовые изменения перед ребейсом)
-# ArcaLang 🧬
+ 7d21d0d (Фазовые изменения перед ребейсом)
 
+
+# 🌌 ArcaLang
+
+[![CI](https://github.com/XerxFav/XerxFav-ResLangCore/actions/workflows/test.yml/badge.svg)](https://github.com/XerxFav/XerxFav-ResLangCore/actions)
+[![Codeberg](https://codeberg.org/XerxFav/XerxFav-ResLangCore/badges/main/pipeline.svg)](https://codeberg.org/XerxFav/XerxFav-ResLangCore)
+ 7c633fc (phase: 2025-10-03 structural sync)
+
+**ArcaLang** — онтологический язык, объединяющий фазовую логику, тернарные вычисления и CI-модули.
+ c77e847 (phase: 2025-10-03 structural sync)
+
+## 🧠 Структура
+
+ HEAD
 ArcaLang — фазовое, онтологическое, универсальное поле-язык для научных и философских систем.  
 Каждый модуль отражает фазу мышления, каждый коммит — акт эволюции.
 
@@ -99,13 +110,3 @@ threshold: ρ · ω
 - Тесты: make arca_core_test
 
 
->>>>>>> 163a223 (🧩 [phase:migration] 2025-10-16 Автоматическая синхронизация)
-
-```text
-arca_core/
-├── reslang/
-├── arca_memory/
-├── arca_fieldcore/
-├── arca_interpreter/
-├── phase_agent/
-├── chronotope.py, phase.py, headers.py

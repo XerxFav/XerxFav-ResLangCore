@@ -2,7 +2,7 @@
 
 echo "⮕ [phase-sync] Начинаю фазовую миграцию ArcaLang..."
 
-<<<<<<< HEAD
+
 # Фиксация изменений
 
 # 📁 Локальный путь
@@ -23,7 +23,7 @@ echo "🔁 Начинается фазовая миграция..." | tee -a "$L
 git add .
 git commit -m "phase: $(date +%Y-%m-%d) structural sync"
 
-HEAD
+
 # Публикация на GitHub
 echo "⮕ [push] Отправка в GitHub..."
 git push origin main
@@ -63,6 +63,7 @@ python3 scripts/ci_phase_report.py >> ci/phase_report.md
 echo "⮕ [report] Генерация phase_report.md..." | tee -a "$LOG_FILE"
 python3 scripts/ci_phase_report.py > ci/phase_report.md
 
+
 # 📊 Diff-отчёт
 echo "⮕ [diff] Сравнение структуры..." | tee -a "$LOG_FILE"
 tree -L 3 "$LOCAL_REPO" > ci/current_tree.txt
@@ -79,9 +80,9 @@ git push origin main | tee -a "$LOG_FILE"
 git push codeberg main | tee -a "$LOG_FILE"
 
 echo "✅ Миграция завершена: $(date)" | tee -a "$LOG_FILE"
-<<<<<<< HEAD
+
 eef0aa1 (🧩 [phase:migration] 2025-10-10 Автоматическая синхронизация)
-=======
+
 
 if ! git remote | grep -q codeberg; then        #1. 🔐 Проверка remotes перед пушем
   git remote add codeberg "$CODEBERG"
@@ -168,4 +169,19 @@ fi
 
 
 
+<<<<<<< HEAD
 >>>>>>> 163a223 (🧩 [phase:migration] 2025-10-16 Автоматическая синхронизация)
+=======
+=======
+# Сравнение структуры
+echo "⮕ [diff] Сравнение с предыдущим snapshot..."
+tree -L 3 ~/ResLang/ArcaLang > ci/current_tree.txt
+diff ci/current_tree.txt tree_snapshot.txt > ci/diff_report.md
+
+# Добавление отчёта в коммит
+git add ci/diff_report.md
+git commit -m "phase: $(date +%Y-%m-%d) diff_report updated"
+
+echo "✅ [done] Миграция завершена, отчёты обновлены."
+>>>>>>> c77e847 (phase: 2025-10-03 structural sync)
+>>>>>>> 7c633fc (phase: 2025-10-03 structural sync)
