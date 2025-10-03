@@ -1,13 +1,31 @@
-// Phase Audit
+// Phase Map
 digraph {
 	Quantum [label=Quantum]
 	Logical [label=Logical]
 	Ontological [label=Ontological]
 	Memory [label=Memory]
 	Docs [label=Docs]
-	e15fa59 [label="e15fa59 📜 Docs: онтологическая манифестация в README"]
-	Docs -> e15fa59
 	CI [label=CI]
-	"75e5c18" [label="75e5c18 ⚙️ CI: фазовая маршрутизация через Woodpecker"]
-	CI -> "75e5c18"
+	cb98317 [label="cb98317 🧬 Add phase-based CI, docs generator, and memory tests"]
+	CI -> cb98317
+	"1d38a43" [label="1d38a43 Add evaluator test step to CI"]
+	CI -> "1d38a43"
+	ecd2bb6 [label="ecd2bb6 Refactor CI: phase validation and ontology generation"]
+	CI -> ecd2bb6
+	cf6242e [label="cf6242e Phase migration: added CI, coverage, and session log"]
+	CI -> cf6242e
+	"86cb8be" [label="86cb8be Phase migration: added CI, coverage, and session log"]
+	CI -> "86cb8be"
+	"72b32aa" [label="72b32aa Fix PYTHONPATH for CI"]
+	CI -> "72b32aa"
+	d2b77da [label="d2b77da Fix PYTHONPATH for CI"]
+	CI -> d2b77da
+	"90cdbcd" [label="90cdbcd Trigger CI and update requirements"]
+	CI -> "90cdbcd"
+	"0dfd9c7" [label="0dfd9c7 Add Arca CI workflow"]
+	CI -> "0dfd9c7"
+	"062cd87" [label="062cd87 Trigger CI workflow"]
+	CI -> "062cd87"
+	"30508d3" [label="30508d3 Add GitHub Actions CI workflow"]
+	CI -> "30508d3"
 }

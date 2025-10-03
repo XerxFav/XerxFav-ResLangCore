@@ -1,16 +1,34 @@
-# 📊 CI Phase Report
+# 🧠 Phase Report — ArcaLang
 
-**Generated:** 2025-09-29T21:12:25.241492
+**Дата генерации:** 2025-10-02  
+**CI статус:** ✅ Все тесты пройдены, документация сгенерирована
 
-- `reslang_core/tests/test_phase_logic.cpp` — фазовый модуль
-- `reslang_core/src/agent_model.cpp` — фазовый модуль
-- `reslang_core/src/ternary_ops.cpp` — фазовый модуль
-- `reslang_core/src/phase_logic.cpp` — фазовый модуль
-- `reslang_core/src/compiler/resc.h` — фазовый модуль
-- `reslang_core/src/compiler/resc_parser.cpp` — фазовый модуль
-- `reslang_core/src/compiler/test_resc_codegen.cpp` — фазовый модуль
-- `reslang_core/src/compiler/resc_codegen.cpp` — фазовый модуль
-- `reslang_core/include/ternary.h` — фазовый модуль
-- `reslang_core/include/agent.h` — фазовый модуль
-- `reslang_core/include/reslang.h` — фазовый модуль
-- `reslang_core/include/phase.h` — фазовый модуль
+## 🔷 Фазовые слои
+
+| Фаза           | Модуль            | CI статус | Документация |
+|----------------|-------------------|-----------|--------------|
+| memory         | arca_memory       | ✅         | ✅            |
+| interpreter    | arca_interpreter  | ✅         | ✅            |
+| field          | arca_fieldcore    | ✅         | ✅            |
+| resonance      | chronotope, phase | ✅         | ✅            |
+| stabilization  | tests/stabilization | ✅       | ✅            |
+
+## 📦 Модули
+
+- `reslang`: фазовый компилятор
+- `chronotope.py`, `phase.py`: фазовая логика
+- `headers.py`: фазовые заголовки
+- `storage.py`, `evaluator.py`, `generator.py`: фазовые исполнители
+
+## 📜 Документация
+
+- `docs/specification.md`
+- `docs/ontology.md`
+- `docs/arca_lang_spec.md`
+- `docs/phase_index.md`
+
+## 🧬 CI
+
+- `scripts/generate_ci_report.py`
+- `ci_phase_map.svg`
+- `ci/phase_report.md`
