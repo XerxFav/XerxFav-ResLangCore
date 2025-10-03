@@ -1,0 +1,30 @@
+phase_map:
+  - object_id: ψ_Arctur_001
+    psi_obj: 0.82
+    psi_glob: 1.45
+    omega: 0.12
+    rho: 0.09
+    inclusion_metric: 0.5655
+    threshold: 0.0108
+    inclusion_decision: true
+    status: "✅ Включение разрешено"
+
+  - object_id: ψ_ArcaLang_Core
+    psi_obj: 0.76
+    psi_glob: 1.32
+    omega: 0.10
+    rho: 0.08
+    inclusion_metric: 0.5758
+    threshold: 0.0080
+    inclusion_decision: true
+    status: "✅ Включение разрешено"
+
+  - object_id: ψ_ResLang_Node
+    psi_obj: 0.51
+    psi_glob: 1.20
+    omega: 0.14
+    rho: 0.11
+    inclusion_metric: 0.4250
+    threshold: 0.0154
+    inclusion_decision: false
+    status: "⛔ Включение отклонено"

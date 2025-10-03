@@ -1,0 +1,6 @@
+phase:
+  name: interpreter
+  desc: Автоматически сгенерировано на основе миграции 2025-09-27
+  tags: [migrated, interpreter]
+  evolves_from: field
+  pushed: true

@@ -1,0 +1,9 @@
+docs.yml
+
+    labels: [phase:docs]
+
+    Мотивация: улучшение документации
+
+    Модули: README.md, ci_phase_report.md, index.rst
+
+    Визуализация: ci_phase_map.svg

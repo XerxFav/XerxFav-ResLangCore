@@ -1,0 +1,11 @@
+reslang_core/
+├── src/
+│   ├── phase_logic.cpp
+│   ├── ternary_ops.cpp
+│   ├── agent_model.cpp
+│   └── compiler/#🧩 [phase:compiler] Добавлен модуль resc внутри reslang_core/src/compiler
+                  🧩 [phase:compiler] resc_codegen: троичный байткод, фазовая кодировка
+  
+│       ├── resc_parser.cpp
+│       ├── resc_codegen.cpp
+│       └── resc.h

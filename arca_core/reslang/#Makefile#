@@ -1,0 +1,14 @@
+CXX = g++
+CXXFLAGS = -std=c++23 -O2 -Wall -I./include
+LDFLAGS = -lboost_system -lboost_filesystem -lboost_program_options -lboost_serialization
+
+SRC = $(wildcard src/*.cpp) \
+      $(wildcard src/compiler/*.cpp)
+
+OBJ = $(SRC:.cpp=.o)
+TARGET = reslang
+
+$(TARGET): $(OBJ)
+    $(CXX) $(OBJ) -o $(TARGET) $(LDFLAGS)
+
+

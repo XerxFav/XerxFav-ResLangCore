@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-import datetime, os
-from pathlib import Path
-=======
 
 from pathlib import Path
 from pathlib import Path
@@ -25,7 +21,6 @@ for phase in sorted(phases_dir.iterdir()):
 
 Path("docs/ci/phase_index.md").write_text(index, encoding="utf-8")
 print("✅ Фазовый индекс синхронизирован.")
->>>>>>> 825868b (phase: unified ArcaLang structure)
 
 # README структура
 structure = """## 🧭 Фазовая структура проекта ArcaLang
@@ -39,7 +34,4 @@ ResLang/
 ├── tests/            # 🧪 [Test]
 ├── scripts/          # ⚙️ [CI]
 └── .github/workflows # ⚙️ [CI]
-<<<<<<< HEAD
-=======
 """
->>>>>>> 825868b (phase: unified ArcaLang structure)

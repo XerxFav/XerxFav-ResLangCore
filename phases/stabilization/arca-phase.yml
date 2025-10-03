@@ -1,0 +1,6 @@
+phase:
+  name: stabilization
+  desc: Автоматически сгенерировано на основе миграции 2025-09-27
+  tags: [migrated, stabilization]
+  evolves_from: origin
+  pushed: true

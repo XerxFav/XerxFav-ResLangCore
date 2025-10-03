@@ -1,0 +1,13 @@
+// Phase Audit
+digraph {
+	Quantum [label=Quantum]
+	Logical [label=Logical]
+	Ontological [label=Ontological]
+	Memory [label=Memory]
+	Docs [label=Docs]
+	e15fa59 [label="e15fa59 📜 Docs: онтологическая манифестация в README"]
+	Docs -> e15fa59
+	CI [label=CI]
+	"75e5c18" [label="75e5c18 ⚙️ CI: фазовая маршрутизация через Woodpecker"]
+	CI -> "75e5c18"
+}

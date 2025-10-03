@@ -1,0 +1,6 @@
+phase:
+  name: resonance
+  desc: CI стабилизирован, документация синхронизирована
+  tags: [ci, doc, resonance]
+  evolves_from: stabilization
+  pushed: true

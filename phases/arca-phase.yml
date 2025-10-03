@@ -1,0 +1,6 @@
+phase:
+  name: 
+  desc: Автоматически сгенерировано на основе миграции 2025-09-23
+  tags: [migrated, ]
+  evolves_from: 
+  pushed: true

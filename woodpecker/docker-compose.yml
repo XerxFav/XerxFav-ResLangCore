@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  server:
+    image: woodpeckerci/woodpecker-server:latest
+    ports:
+      - "8000:8000"
+    volumes:
+      - woodpecker-data:/var/lib/woodpecker
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WOODPECKER_OPEN=true
+      - WOODPECKER_GITEA=true
+      - WOODPECKER_GITEA_URL=https://codeberg.org
+      - WOODPECKER_GITEA_CLIENT=your-client-id
+      - WOODPECKER_GITEA_SECRET=your-client-secret
+      - WOODPECKER_AGENT_SECRET=your-agent-secret
+
+  agent:
+    image: woodpeckerci/woodpecker-agent:latest
+    depends_on:
+      - server
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WOODPECKER_SERVER=http://server:8000
+      - WOODPECKER_AGENT_SECRET=your-agent-secret
+
+volumes:
+  woodpecker-data:

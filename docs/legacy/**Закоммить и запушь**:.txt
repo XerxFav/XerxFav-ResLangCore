@@ -1,0 +1,7 @@
+
+5. **Закоммить и запушь**:
+
+```bash
+git add .
+git commit -m "Добавлен CI-агент фазового включения"
+git push origin phase-inclusion-agent

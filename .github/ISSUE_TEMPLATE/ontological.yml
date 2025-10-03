@@ -1,0 +1,9 @@
+ontological.yml
+
+    labels: [phase:ontological]
+
+    Мотивация: расширение онтологической модели
+
+    Модули: generate_ontology.py, ontology.md
+
+    Тесты: валидация структуры, Sphinx

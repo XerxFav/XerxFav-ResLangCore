@@ -1,0 +1,42 @@
+name: 🧬 Quantum Phase Contribution
+description: Добавление хронотопов, интерпретаторов или фазовых сценариев
+labels: [phase:quantum]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🧬 Quantum Phase — вклад в фазовое время и интерпретацию
+
+  - type: input
+    id: title
+    attributes:
+      label: Название задачи
+      placeholder: Например: "Добавить хронотоп для фазового перехода"
+
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Мотивация
+      description: Почему этот вклад важен для фазового времени?
+      placeholder: Обоснование, связь с хронотопами, сценариями
+
+  - type: textarea
+    id: implementation
+    attributes:
+      label: Реализация
+      description: Какие модули будут затронуты?
+      placeholder: arca_core/chronotope.py, arca_interpreter/evaluator.py...
+
+  - type: textarea
+    id: tests
+    attributes:
+      label: Тесты
+      description: Какие тесты будут добавлены?
+      placeholder: tests/test_chronotope.py, сценарии фаз
+
+  - type: textarea
+    id: ontology
+    attributes:
+      label: Онтологическая роль
+      description: Как это влияет на модель ArcaLang?
+      placeholder: Расширение хронотопической модели, новые сценарии

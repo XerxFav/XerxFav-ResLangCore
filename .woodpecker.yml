@@ -1,0 +1,14 @@
+pipeline:
+  quantum:
+    commands:
+      - pytest tests/test_chronotope.py
+  logical:
+    commands:
+      - pytest tests/test_phase.py
+  ontological:
+    commands:
+      - python arca_core/generate_ontology.py
+      - mkdocs build
+  docs:
+    commands:
+      - python scripts/generate_docs.py

@@ -1,0 +1,6 @@
+phase:
+  name: field
+  desc: Автоматически сгенерировано на основе миграции 2025-09-27
+  tags: [migrated, field]
+  evolves_from: stabilization
+  pushed: true

@@ -1,0 +1,6 @@
+phase:
+  name: memory
+  desc: Автоматически сгенерировано на основе миграции 2025-09-27
+  tags: [migrated, memory]
+  evolves_from: interpreter
+  pushed: true

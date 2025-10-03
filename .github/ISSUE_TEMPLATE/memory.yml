@@ -1,0 +1,9 @@
+memory.yml
+
+    labels: [phase:memory]
+
+    Мотивация: сохранение фазовых слепков
+
+    Модули: storage.py
+
+    Тесты: test_storage.py

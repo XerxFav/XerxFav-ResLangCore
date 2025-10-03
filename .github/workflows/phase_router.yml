@@ -1,0 +1,48 @@
+#Автоматизация через GitHub Actions
+
+# Action, который будет:
+
+ #   Слушать события issues
+
+ #   Проверять наличие метки phase:*
+
+ #   Добавлять задачу в нужную колонку проекта
+
+
+
+
+
+name: 🧩 Phase Router
+
+on:
+  issues:
+    types: [opened, labeled]
+
+jobs:
+  route-phase:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Route issue to phase column
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const phaseMap = {
+              "phase:quantum": "🧬 Quantum",
+              "phase:logical": "🔢 Logical",
+              "phase:ontological": "🧩 Ontological",
+              "phase:memory": "📦 Memory",
+              "phase:docs": "📜 Docs",
+              "phase:ci": "⚙️ CI"
+            };
+
+            const labels = context.payload.issue.labels.map(l => l.name);
+            const phaseLabel = labels.find(l => phaseMap[l]);
+
+            if (!phaseLabel) return;
+
+            const projectId = YOUR_PROJECT_ID; // Replace with actual project ID
+            const columnName = phaseMap[phaseLabel];
+
+            // You’ll need to use GraphQL API to move the issue to the column
+            // GitHub Actions can't directly move issues in Project v2 via REST

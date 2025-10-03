@@ -1,0 +1,10 @@
+📜 Как включить шаблоны
+
+    Создай файлы в .github/ISSUE_TEMPLATE/
+
+    Названия: quantum.yml, logical.yml, и т.д.
+
+    GitHub автоматически покажет их при создании новой задачи
+
+📌 Документация: https://docs.github.com/en/communities/using-templates-to-encourage-useful-issues-and-pull-requests/configuring-issue-templates-for-your-repository
+/home/arca/Загрузки/learnyaml.yaml

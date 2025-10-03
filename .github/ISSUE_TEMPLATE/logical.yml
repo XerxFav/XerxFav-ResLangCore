@@ -1,0 +1,10 @@
+logical.yml
+
+    labels: [phase:logical]
+
+    Мотивация: структурная логика переходов
+
+    Модули: phase.py, schema.py, fieldmap.py
+
+    Тесты: test_phase.py, test_schema.py
+

@@ -1,0 +1,28 @@
+environment:
+  PHASE_NAME: "resonance"
+  PHASE_DESC: "CI стабилизирован, документация синхронизирована"
+  PHASE_TAGS: "ci,doc,resonance"
+
+pipeline:
+  validate-phase:
+    image: alpine
+    commands:
+      - chmod +x phases/resonance/arca-phase-validate.sh
+      - ./phases/resonance/arca-phase-validate.sh "$PHASE_NAME"
+
+  commit-phase:
+    image: alpine
+    commands:
+      - chmod +x arca-phase.sh
+      - ./arca-phase.sh commit "$PHASE_NAME" "$PHASE_DESC" "$PHASE_TAGS" true
+
+  push-phase:
+    image: alpine/git
+    commands:
+      - ./arca-phase.sh push "$PHASE_NAME" origin true
+
+  generate-docs:
+    image: python:3.10
+    commands:
+      - pip install -r requirements.txt
+      - python -c "from phases.resonance.arca_phase import load_metadata, generate_svg_map; generate_svg_map(load_metadata(), export='.arca_phase/phase_map')"
