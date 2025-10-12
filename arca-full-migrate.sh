@@ -47,24 +47,29 @@ git commit -m "phase: $(date +%Y-%m-%d) diff_report updated"
 
 echo "✅ [done] Миграция завершена, отчёты обновлены."
 
-# 🚀 Пуш в GitHub и Codeberg
-echo "⮕ [push] GitHub..."
+# 🚀 Пуш в оба репозитория
+echo "⮕ [push] GitHub..." | tee -a "$LOG_FILE"
 git push origin main | tee -a "$LOG_FILE"
-echo "⮕ [push] Codeberg..."
+
+echo "⮕ [push] Codeberg..." | tee -a "$LOG_FILE"
 git push codeberg main | tee -a "$LOG_FILE"
 
 # 🧠 CI-отчёт
-echo "⮕ [report] Генерация phase_report.md..."
+echo "⮕ [report] Генерация phase_report.md..." | tee -a "$LOG_FILE"
 python3 scripts/ci_phase_report.py > ci/phase_report.md
 
 # 📊 Diff-отчёт
-echo "⮕ [diff] Сравнение структуры..."
+echo "⮕ [diff] Сравнение структуры..." | tee -a "$LOG_FILE"
 tree -L 3 "$LOCAL_REPO" > ci/current_tree.txt
 diff ci/current_tree.txt ci/tree_snapshot.txt > ci/diff_report.md
 
+# 📈 Визуализация фазовой синхронизации
+echo "⮕ [svg] Генерация ci_phase_map.svg..." | tee -a "$LOG_FILE"
+python3 scripts/generate_phase_svg.py
+
 # 📦 Коммит отчётов
-git add ci/phase_report.md ci/diff_report.md
-git commit -m "📜 [phase:report] Обновлены phase_report и diff_report" | tee -a "$LOG_FILE"
+git add ci/phase_report.md ci/diff_report.md ci/ci_phase_map.svg
+git commit -m "📜 [phase:report] CI и diff отчёты обновлены" | tee -a "$LOG_FILE"
 git push origin main | tee -a "$LOG_FILE"
 git push codeberg main | tee -a "$LOG_FILE"
 
