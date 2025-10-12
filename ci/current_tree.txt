@@ -11,9 +11,7 @@
 │   │   └── storage.py
 │   ├── chronotope.py
 
-│   ├── chronotope.py,cover
-
- cc3d09e (🧩 [phase:migration] 2025-10-10 Автоматическая синхронизация)
+ a63b5ce (🧩 [phase:migration] 2025-10-12 Автоматическая синхронизация)
 ├── requirements.txt
 ├── ResLang -> /home/arca/ResLang
 ├── scripts
@@ -23,7 +21,8 @@
 │   │   ├── ci_phase_map.dot
 │   │   ├── docs
 │   │   ├── generate_ci_report.py
-│   │   └── generate_docs.py
+│   │   ├── generate_docs.py
+│   │   └── generate_phase_svg.py
 │   ├── ci_phase_map.dot
 │   ├── ci_phase_report.py
 │   ├── generate_ci_report.py
@@ -85,5 +84,3 @@
 47 directories, 167 files
 └── 🧭 Стандартизированные фазовые метки для коммитов.txt
 
-44 directories, 152 files
- cc3d09e (🧩 [phase:migration] 2025-10-10 Автоматическая синхронизация)
