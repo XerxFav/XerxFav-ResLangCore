@@ -1,0 +1,23 @@
+# 📦 Автоматически сгенерированные фазовые цели
+
+# 🔧 Фаза: arca_core
+arca_core_objects = phase_utils.o phase_types.o
+arca_core_build: $(arca_core_objects)
+	@echo '✅ Сборка arca_core завершена.'
+
+phase_utils.o: arca_core/src/phase_utils.cpp
+	g++ -std=c++23 -Wall -Wextra -O2 -I/usr/include/boost -DBOOST_ALL_NO_LIB -c $< -o $@
+
+phase_types.o: arca_core/src/phase_types.cpp
+	g++ -std=c++23 -Wall -Wextra -O2 -I/usr/include/boost -DBOOST_ALL_NO_LIB -c $< -o $@
+
+arca_core_test:
+	g++ -std=c++23 -Iarca_core/reslang/include tests/arca_core_phase2/test_phase_types.cpp arca_core/src/phase_types.cpp -o test_core
+	./test_core
+arca_core_test_utils:
+	g++ -std=c++23 -Iarca_core/reslang/include tests/arca_core_phase2/test_phase_utils.cpp arca_core/src/phase_utils.cpp -o test_utils
+	./test_utils
+arca_core_test_all: arca_core_test arca_core_test_utils
+	@echo "✅ Все фазовые тесты arca_core выполнены."
+
+

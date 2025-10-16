@@ -54,6 +54,11 @@ git push origin main | tee -a "$LOG_FILE"
 echo "⮕ [push] Codeberg..." | tee -a "$LOG_FILE"
 git push codeberg main | tee -a "$LOG_FILE"
 
+#🧠 Фазовая подпись в phase_report.md
+echo "$PHASE_TAG" > ci/phase_report.md
+python3 scripts/ci_phase_report.py >> ci/phase_report.md
+
+
 # 🧠 CI-отчёт
 echo "⮕ [report] Генерация phase_report.md..." | tee -a "$LOG_FILE"
 python3 scripts/ci_phase_report.py > ci/phase_report.md
@@ -74,4 +79,93 @@ git push origin main | tee -a "$LOG_FILE"
 git push codeberg main | tee -a "$LOG_FILE"
 
 echo "✅ Миграция завершена: $(date)" | tee -a "$LOG_FILE"
+<<<<<<< HEAD
 eef0aa1 (🧩 [phase:migration] 2025-10-10 Автоматическая синхронизация)
+=======
+
+if ! git remote | grep -q codeberg; then        #1. 🔐 Проверка remotes перед пушем
+  git remote add codeberg "$CODEBERG"
+fi
+
+#📁 Снимок дерева перед сравнением
+
+if [ ! -f ci/tree_snapshot.txt ]; then
+  cp ci/current_tree.txt ci/tree_snapshot.txt
+fi
+
+#🧪 Проверка успешности коммита
+
+if git diff --cached --quiet; then
+  echo "⚠️ Нет изменений для коммита." | tee -a "$LOG_FILE"
+else
+  git commit -m "$PHASE_TAG" | tee -a "$LOG_FILE"
+fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> 163a223 (🧩 [phase:migration] 2025-10-16 Автоматическая синхронизация)

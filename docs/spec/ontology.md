@@ -10,3 +10,8 @@ ResLang operates on ternary, phase-based transitions. Each module reflects a dis
 ## Dependencies
 - `phase` depends on `chronotope`
 - `fieldcore` synthesizes headers into executable phase maps
+
+### ✅ Добавлен ternary.hpp
+- Фазовая логика: ternary_state, ternary_eval
+- Точность: Boost.Multiprecision
+- Местоположение: arca_core_phase2/include

@@ -1,0 +1,143 @@
+Продолжим создавать компилятор для Arca- у нас есть :
+
+
+arca@arca-To-Be-Filled-By-O-E-M:~/ResLang/ArcaLang/arca_core/reslang/src/compiler$ ls -laR
+.:
+итого 32
+drwxrwxr-x 2 arca arca 4096 окт  4 21:58 .
+drwxrwxr-x 3 arca arca 4096 окт  4 21:58 ..
+-rwxrwxr-x 1 arca arca    0 окт  2 20:34 resc_ast.cpp,
+-rwxrwxr-x 1 arca arca  866 окт  2 20:34 resc_codegen.cpp
+-rw-rw-r-- 1 arca arca 3472 окт  2 20:34 resc_codegen.o
+-rwxrwxr-x 1 arca arca 1089 окт  2 20:34 resc_parser.cpp
+-rw-rw-r-- 1 arca arca 8056 окт  2 20:34 resc_parser.o
+-rwxrwxr-x 1 arca arca    0 окт  2 20:34 resc_vm.cpp,
+-rwxrwxr-x 1 arca arca    0 окт  2 20:34 test_resc_codegen.cpp
+-rw-rw-r-- 1 arca arca 1000 окт  2 20:34 test_resc_codegen.o
+arca@arca-To-Be-Filled-By-O-E-M:~/ResLang/ArcaLang/arca_core/reslang/src/compiler$ 
+
+arca@arca-To-Be-Filled-By-O-E-M:~/ResLang/ArcaLang/arca_core/reslang/tests$ ls -laR
+.:
+итого 32
+drwxrwxr-x 2 arca arca  4096 окт 13 08:12 .
+drwxrwxr-x 6 arca arca  4096 окт  4 21:58 ..
+-rw-rw-r-- 1 arca arca  2189 окт 13 08:12 run13.10.25
+-rwxrwxr-x 1 arca arca     0 окт  2 20:34 test_phase_logic.cpp
+-rw-rw-r-- 1 arca arca   355 окт  2 20:34 test_resc_parser.cpp
+-rw-rw-r-- 1 arca arca   412 окт  2 20:34 test_ternary.cpp
+-rw-r--r-- 1 arca arca 12288 окт 13 08:07 .test_ternary.cpp.swp
+
+
+Мне создавать этот ресурс?
+
+
+#include <iostream>
+#include "ternary.h"
+
+using namespace reslang;
+
+int main() {
+    std::cout << "¬True = " << to_string(negate(TernaryValue::True)) << "\n";
+    std::cout << "True ∧ Unknown = " << to_string(conjunction(TernaryValue::True, TernaryValue::Unknown)) << "\n";
+    std::cout << "False ∨ Unknown = " << to_string(disjunction(TernaryValue::False, TernaryValue::Unknown)) << "\n";
+    return 0;
+}
+                                                                          
+~                                                                               
+<rca_core/reslang/tests/test_ternary.cpp" 11L, 412B           1,1    Весь текст
+
+
+#include <iostream>
+#include "ternary.h"
+
+using namespace reslang;
+
+int main() {
+    std::cout << "¬True = " << to_string(negate(TernaryValue::True)) << "\n";
+    std::cout << "True ∧ Unknown = " << to_string(conjunction(TernaryValue::True, TernaryValue::Unknown)) << "\n";
+    std::cout << "False ∨ Unknown = " << to_string(disjunction(TernaryValue::False, TernaryValue::Unknown)) << "\n";
+    return 0;
+}
+.............................
+Ты мне даешь задание создать : ternary.h-  #ifndef TERNARY_H
+#define TERNARY_H
+
+namespace reslang {
+
+enum class TernaryValue {
+    False = -1,
+    Unknown = 0,
+    True = 1
+};
+
+// Унарные и бинарные операции
+TernaryValue ternary_not(TernaryValue a);
+TernaryValue ternary_and(TernaryValue a, TernaryValue b);
+TernaryValue ternary_or(TernaryValue a, TernaryValue b);
+TernaryValue ternary_xor(TernaryValue a, TernaryValue b);
+
+} // namespace reslang
+
+#endif // TERNARY_H
+ 
+  ternary_ops.cpp-  #ifndef TERNARY_H
+#define TERNARY_H
+
+namespace reslang {
+
+enum class TernaryValue {
+    False = -1,
+    Unknown = 0,
+    True = 1
+};
+
+// Унарные и бинарные операции
+TernaryValue ternary_not(TernaryValue a);
+TernaryValue ternary_and(TernaryValue a, TernaryValue b);
+TernaryValue ternary_or(TernaryValue a, TernaryValue b);
+TernaryValue ternary_xor(TernaryValue a, TernaryValue b);
+
+} // namespace reslang
+
+#endif // TERNARY_H
+
+Добавим тест test_ternary.cpp в tests/-  #include "../include/ternary.h"
+#include <iostream>
+
+using namespace reslang;
+
+int main() {
+    std::cout << "NOT True: " << static_cast<int>(ternary_not(TernaryValue::True)) << "\n";
+    std::cout << "True AND Unknown: " << static_cast<int>(ternary_and(TernaryValue::True, TernaryValue::Unknown)) << "\n";
+    std::cout << "False OR True: " << static_cast<int>(ternary_or(TernaryValue::False, TernaryValue::True)) << "\n";
+    std::cout << "True XOR False: " << static_cast<int>(ternary_xor(TernaryValue::True, TernaryValue::False)) << "\n";
+    return 0;
+}
+
+ Обновим Makefile
+
+Добавим правила для сборки ternary_ops.o и test_ternary:
+#include "../include/ternary.h"
+#include <iostream>
+
+using namespace reslang;
+
+int main() {
+    std::cout << "NOT True: " << static_cast<int>(ternary_not(TernaryValue::True)) << "\n";
+    std::cout << "True AND Unknown: " << static_cast<int>(ternary_and(TernaryValue::True, TernaryValue::Unknown)) << "\n";
+    std::cout << "False OR True: " << static_cast<int>(ternary_or(TernaryValue::False, TernaryValue::True)) << "\n";
+    std::cout << "True XOR False: " << static_cast<int>(ternary_xor(TernaryValue::True, TernaryValue::False)) << "\n";
+    return 0;
+}
+
+и  Обновим Makefile
+
+Добавим правила для сборки ternary_ops.o и test_ternary:
+ OBJS = src/ternary_ops.o src/main.o src/agent_model.o src/phase_logic.o
+TESTS = tests/test_ternary
+
+tests/test_ternary: tests/test_ternary.cpp src/ternary_ops.o
+    $(CXX) -std=c++23 -Iinclude -o $@ $^
+
+src/ternary_ops.o: src/ternary_ops.cpp include/ternary.h
+    $(CXX) -std=c++23 -Iinclude -c $< -o $@
