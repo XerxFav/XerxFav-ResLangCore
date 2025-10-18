@@ -1,0 +1,6 @@
+// Phase Map
+digraph {
+	A [label="Phase 1"]
+	B [label="Phase 2"]
+	A -> B [label=migration]
+}
