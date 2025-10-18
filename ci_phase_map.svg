@@ -6,6 +6,7 @@ digraph {
 	Memory [label=Memory]
 	Docs [label=Docs]
 	CI [label=CI]
+ HEAD
 	cb98317 [label="cb98317 🧬 Add phase-based CI, docs generator, and memory tests"]
 	CI -> cb98317
 	"1d38a43" [label="1d38a43 Add evaluator test step to CI"]
@@ -28,4 +29,5 @@ digraph {
 	CI -> "062cd87"
 	"30508d3" [label="30508d3 Add GitHub Actions CI workflow"]
 	CI -> "30508d3"
+ 19fda02 (🧩 [phase:migration] 2025-10-18 Автоматическая синхронизация)
 }
