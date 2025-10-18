@@ -2,8 +2,10 @@
 
 echo "⮕ [phase-sync] Начинаю фазовую миграцию ArcaLang..."
 
-
 # Фиксация изменений
+# 🌐 Удалённые репозитории
+GITHUB="https://github.com/XerxFav/XerxFav-ResLangCore"
+CODEBERG="https://codeberg.org/XerxFav/XerxFav-ResLangCore"
 
 # 📁 Локальный путь
 LOCAL_REPO="$HOME/ResLang/ArcaLang"
@@ -18,10 +20,13 @@ mkdir -p "$(dirname "$LOG_FILE")"
 
 echo "🔁 Начинается фазовая миграция..." | tee -a "$LOG_FILE"
 
+# 🧠 Фаза: автоматическое разрешение конфликтов
+echo "🧠 Проверка на git-конфликты..." | tee -a "$LOG_FILE"
+python3 scripts/resolve_phase_conflicts.py
+
 # 📦 Добавление всех изменений
- eef0aa1 (🧩 [phase:migration] 2025-10-10 Автоматическая синхронизация)
 git add .
-git commit -m "phase: $(date +%Y-%m-%d) structural sync"
+git commit -m "$PHASE_TAG" | tee -a "$LOG_FILE"
 
 
 # Публикация на GitHub
