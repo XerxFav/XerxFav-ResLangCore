@@ -6,6 +6,8 @@ digraph {
 	Memory [label=Memory]
 	Docs [label=Docs]
 	CI [label=CI]
+	d0053c8 [label="d0053c8 📜 [phase:report] CI и diff отчёты обновлены"]
+	CI -> d0053c8
 	cb98317 [label="cb98317 🧬 Add phase-based CI, docs generator, and memory tests"]
 	CI -> cb98317
 	"1d38a43" [label="1d38a43 Add evaluator test step to CI"]
