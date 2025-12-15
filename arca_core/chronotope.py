@@ -1,5 +1,3 @@
-HEAD
-HEAD
 from .phase import PhaseBit, QND
 
 class Chronotope:

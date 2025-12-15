@@ -1,0 +1,14 @@
+phase:
+    name: example_phase
+    description: Пример фазы, которая принимает строку и возвращает её длину в виде целого числа.
+    
+    inputs:
+    - name: input1
+        type: string
+    outputs:
+    - name: result
+        type: int
+    logic: |
+    input1 = ctx.get("input1", "")
+    result = len(input1)
+    return {"result": result}

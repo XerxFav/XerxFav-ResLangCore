@@ -1,0 +1,14 @@
+agent:
+  name: default_agent
+  description: Фазовый агент, управляющий выполнением фаз и взаимодействием с памятью.
+  phases:
+    - name: example_phase
+      template: templates/phase_template.yaml
+      trigger: on_event
+      inputs:
+        - input1
+      outputs:
+        - result
+  memory:
+    enabled: true
+    scope: local

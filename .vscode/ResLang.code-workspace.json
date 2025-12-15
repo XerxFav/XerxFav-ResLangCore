@@ -1,0 +1,53 @@
+{
+  "folders": [
+    { "path": "arca_core" },
+    { "path": "phases" },
+    { "path": "scripts" },
+    { "path": "docs" },
+    { "path": "ci" },
+    { "path": "tests" },
+    { "path": "reslang" }
+  ],
+  "settings": {
+    "python.pythonPath": "venv/bin/python3",
+    "jupyter.jupyterServerType": "local",
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/*.pyc": true,
+      "**/*.o": true
+    },
+    "markdown.preview.breaks": true,
+    "markdown.preview.scrollEditorWithPreview": true,
+    "markdown.preview.scrollPreviewWithEditor": true,
+    "markdown.preview.doubleClickToSwitchToEditor": true,
+    "editor.wordWrap": "on",
+    "editor.formatOnSave": true,
+    "git.enableSmartCommit": true,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "C_Cpp.default.includePath": [
+      "${workspaceFolder}/reslang/include",
+      "${workspaceFolder}/reslang/src"
+    ],
+    "C_Cpp.default.defines": [
+      "ARCA_PHASE_ENABLED"
+    ],
+    "C_Cpp.default.compilerPath": "/usr/bin/g++",
+    "C_Cpp.default.cppStandard": "c++23",
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x64"
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-toolsai.jupyter",
+      "ms-vscode.cpptools",
+      "yzhang.markdown-all-in-one",
+      "bierner.markdown-preview-enhanced",
+      "gruntfuggly.todo-tree",
+      "redhat.vscode-yaml",
+      "james-yu.latex-workshop",
+      "tomoki1207.svg-preview"
+    ]
+  }
+}
