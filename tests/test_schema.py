@@ -12,13 +12,16 @@ import pytest
     ("neutral", "neutral", False),
 ])
 def test_phase_transitions(from_phase, to_phase, expected):
-    assert schema.is_valid_transition(from_phase, to_phase) == expected#📌 Это делает тест компактным и расширяемым.
+    assert schema.is_valid_transition(from_phase, to_phase) == expected
+    
+    #📌 Это делает тест компактным и расширяемым.
 
 from arca_fieldcore import schema
-🔹 Добавить фазовую маркировку:
-@pytest.mark.phase
-def test_valid_transitions():
-    ...#📌 Позволяет запускать фазовые тесты отдельно: pytest -m phase
+#Добавить фазовую маркировку:
+#@pytest.mark.phase
+#def test_valid_transitions():
+
+#📌 Позволяет запускать фазовые тесты отдельно: pytest -m phase
 
 def test_valid_transitions():
     assert schema.is_valid_transition("neutral", "positive")
@@ -31,6 +34,6 @@ def test_invalid_transition():
 #📌 Можно расширить параметризацией и фазовыми маркерами.
 
 #Если ты хочешь убедиться, что test_schema.py точно выполняется, можно добавить фазовую маркировку:
-    - name: Run schema tests
-      run: |
-        pytest tests/test_schema.py --cov=arca_fieldcore --cov-report=term
+#- name: Run schema tests
+#run: |
+#pytest tests/test_schema.py --cov=arca_fieldcore --cov-report=term

@@ -1,4 +1,4 @@
-// Phase Map
+// Phase Audit
 digraph {
 	Quantum [label=Quantum]
 	Logical [label=Logical]
@@ -6,6 +6,8 @@ digraph {
 	Memory [label=Memory]
 	Docs [label=Docs]
 	CI [label=CI]
+	dac92e5 [label="dac92e5 📜 [phase:report] CI и diff отчёты обновлены"]
+	CI -> dac92e5
 	d0053c8 [label="d0053c8 📜 [phase:report] CI и diff отчёты обновлены"]
 	CI -> d0053c8
 	cb98317 [label="cb98317 🧬 Add phase-based CI, docs generator, and memory tests"]

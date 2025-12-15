@@ -42,8 +42,8 @@ type-check:
 	@echo "[type-check] Проверка типов, пространств имён и синтаксиса..."
 	@for file in $(SRC); do \
 	echo "  ⮕ Проверка $$file"; \
-	$(CXX) $(CXXFLAGS) -fsyntax-only $$file; \
-    done
+	$(CXX) $(CXXFLAGS) -fsyntax-only $$file; 
+	done
 
 
 #🧠 Онтологическая интерпретация фаз

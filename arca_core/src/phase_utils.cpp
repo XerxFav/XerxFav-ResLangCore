@@ -5,3 +5,4 @@
 void run_phase_util() {
     std::cout << "Фаза: arca_core_phase2 — утилита активна\n";
 }
+cd 

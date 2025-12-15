@@ -3,7 +3,6 @@
 from schema import is_valid_transition
 
 PHASES = ["neutral", "positive", "negative"]
-
 def render_map():
     with open("fieldmap_output.txt", "w") as f:
         f.write("Phase Transition Map:\n\n")
