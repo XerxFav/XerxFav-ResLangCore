@@ -1,0 +1,38 @@
+name: Metapysics diagrams
+
+on:
+  push:
+    paths:
+      - "docs/metapysics/assets/diagrams/*.dot"
+      - ".github/workflows/metapysics-diagrams.yml"
+  workflow_dispatch:
+
+jobs:
+  build-diagrams:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Graphviz
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+
+      - name: Generate SVG from DOT
+        run: |
+          DOT_DIR="docs/metapysics/assets/diagrams"
+          dot -Tsvg "$DOT_DIR/metapysics_dependencies.dot" \
+              -o "$DOT_DIR/metapysics_dependencies.svg"
+
+      - name: Commit generated SVG
+        if: github.ref == 'refs/heads/main'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/metapysics/assets/diagrams/metapysics_dependencies.svg
+          if ! git diff --cached --quiet; then
+            git commit -m "Update metapysics dependencies diagram"
+            git push
+          fi
