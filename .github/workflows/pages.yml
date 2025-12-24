@@ -1,0 +1,75 @@
+name: ArcaLang CI and Docs
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: pytest -v --disable-warnings --maxfail=1
+
+      - name: Copy plot to docs
+        if: always()
+        run: |
+          mkdir -p docs/assets
+          FOUND=$(find . -name "phase_transition_plot.png" | head -n 1 || true)
+          if [ -n "$FOUND" ]; then cp "$FOUND" docs/assets/phase_transition_plot.png; fi
+
+      - name: Upload plot artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: phase-transition-plot
+          path: docs/assets/phase_transition_plot.png
+
+
+  docs:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build MkDocs site
+        run: mkdocs build --strict
+
+      - name: Upload site artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+
+  deploy:
+    needs: docs
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
