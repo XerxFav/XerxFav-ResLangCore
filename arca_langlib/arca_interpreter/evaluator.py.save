@@ -1,0 +1,31 @@
+import re
+from arca_langlib.axioms.binary_transition import BinaryTransition
+from .phase_backend import PhaseBackend
+
+def evaluate_expression(expr: str):
+    """
+    Интерпретатор выражений ArcaLang.
+    Расширен для поддержки аксиомы бинарного перехода (0+1)^2 в разных форматах.
+    """
+
+    # Нормализация: убираем пробелы
+    normalized = expr.replace(" ", "")
+
+    # Проверка на аксиому бинарного перехода
+    if normalized == "(0+1)^2":
+        return BinaryTransition().apply()
+
+    # Дополнительная проверка через регулярное выражение
+    # Позволяет распознавать варианты вида "(0 + 1)^2", "(0+1) ^ 2" и т.п.
+    pattern = re.compile(r"\(\s*0\s*\+\s*1\s*\)\s*\^\s*2")
+    if pattern.fullmatch(expr.strip()):
+        return BinaryTransition().apply()
+
+    # остальная логика интерпретатора...
+
+
+
+
+
+    return None
+

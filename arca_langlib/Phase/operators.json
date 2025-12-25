@@ -1,0 +1,10 @@
+{
+  "modules": [
+    "Phase.Core",
+    "Phase.Geometry",
+    "Phase.Dynamics",
+    "Phase.Simulation",
+    "Phase.Hilbert",
+    "Phase.Algometry"
+  ]
+}

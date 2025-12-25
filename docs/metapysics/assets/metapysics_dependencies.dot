@@ -1,0 +1,33 @@
+digraph MetaPhysicsDependencies {
+    rankdir=TB;
+    node [shape=box, style=rounded, fontsize=12];
+
+    A00 [label="00 Intro Physys"];
+    A01 [label="01 Singular Physys"];
+    A02 [label="02 Adaptive Physys"];
+    A03 [label="03 Interaction Physys"];
+    A04 [label="04 Phase Memory"];
+    A05 [label="05 Impedance & Hysteresis"];
+    A06 [label="06 Resonance Node"];
+    A07 [label="07 Phase Network"];
+    A08 [label="08 Phase Operators"];
+    A09 [label="09 Functors & Categories"];
+    A10 [label="10 Superposition"];
+    A11 [label="11 ArcaLang Architecture"];
+    A12 [label="12 Timeline"];
+
+    A00 -> A01;
+    A00 -> A02;
+    A00 -> A03;
+
+    A03 -> A04;
+    A03 -> A05;
+    A03 -> A06;
+    A03 -> A07;
+
+    A07 -> A08;
+    A07 -> A09;
+    A07 -> A10;
+
+    A10 -> A11;
+}

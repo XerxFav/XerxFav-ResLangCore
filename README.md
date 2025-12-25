@@ -81,11 +81,45 @@ make serve-doc   # открыть локально на http://localhost:8080
 #Полный CI/CD цикл
 make ci
 
-
-
 git add README.md git commit -m "Обновлен README.md: Makefile Guide + CI Pipeline + Quick Start + ASCII баннер" git push
 
+## PhaseBit & QND_CONST — фазовые переходы
 
+ArcaLang использует фазовую модель, основанную на трёх состояниях:
+
+- **QND** — Quantum Nondemolition
+- **PHASE** — Phase Tracking
+- **ACT** — Active Execution
+
+Переходы между режимами определяются значением `QND_CONST`:
+
+| Условие | Режим |
+|--------|-------|
+| `PhaseBit.QND` и `QND_CONST < 1` | Stable nondemolition regime |
+| `PhaseBit.PHASE` и `QND_CONST ≥ 1` | Phase amplification regime |
+| `PhaseBit.ACT` и `QND_CONST > 10` | High-energy active regime |
+| Иначе | Neutral regime |
+
+График фазовых переходов автоматически генерируется в CI и доступен как артефакт.
+
+Пример артефакта:  
+`phase-transition-plot.png`  
+(см. вкладку **Actions → Artifacts**)
+
+#Карта зависимостей (финальная)metapysics_dependencies
+00_intro_physys
+ ├── 01_singular_physys
+ ├── 02_adaptive_physys
+ └── 03_interaction_physys
+       ├── 04_phase_memory
+       ├── 05_impedance_hysteresis
+       ├── 06_resonance_node
+       └── 07_phase_network
+             ├── 08_phase_operators
+             ├── 09_functors_categories
+             └── 10_superposition
+11_reslang_architecture
+12_timeline_30aug
 
 
 

@@ -1,0 +1,15 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "arca-langlib"
+version = "0.1.0"
+description = "ArcaLang library and CLI"
+authors = [{ name = "Arctur" }]
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+arca = "arca_langlib.cli:main"
+

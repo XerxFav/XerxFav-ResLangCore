@@ -1,0 +1,138 @@
+name: Universal CI Orchestrator
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - "docs/**"
+      - ".github/workflows/**"
+      - "scripts/**"
+  workflow_dispatch:
+
+jobs:
+  universal:
+    runs-on: ubuntu-latest
+
+    steps:
+      # -----------------------------
+      # 1. Checkout
+      # -----------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # -----------------------------
+      # 2. Generate timestamp for versioning
+      # -----------------------------
+      - name: Generate timestamp
+        id: ts
+        run: echo "stamp=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_OUTPUT
+
+      # -----------------------------
+      # 3. Clean old archives
+      # -----------------------------
+      - name: Clean old archives
+        run: |
+          rm -rf ci_workflows_archive metaphysics_docs_archive ci_logs_archive
+          rm -f *.zip *.tar.gz
+
+      # -----------------------------
+      # 4. Install dependencies
+      # -----------------------------
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y graphviz zip tar
+          npm install -g @mermaid-js/mermaid-cli
+
+      - name: Install Python dependencies
+        run: |
+          pip install mkdocs-material
+          pip install mkdocs-mermaid2-plugin
+          pip install mkdocs-pdf-export-plugin
+          pip install linkchecker
+
+      # -----------------------------
+      # 5. Generate DOT → SVG diagrams
+      # -----------------------------
+      - name: Generate DOT diagrams
+        run: |
+          DIAG_DIR="docs/metapysics/assets/diagrams"
+          for f in $DIAG_DIR/*.dot; do
+            svg="${f%.dot}.svg"
+            dot -Tsvg "$f" -o "$svg"
+          done
+
+      # -----------------------------
+      # 6. Generate Mermaid → SVG diagrams
+      # -----------------------------
+      - name: Generate Mermaid diagrams
+        run: |
+          mmdc -i docs/metapysics/metapysics_dependencies.md \
+               -o docs/metapysics/assets/diagrams/metapysics_dependencies_mermaid.svg
+
+      # -----------------------------
+      # 7. Build documentation (HTML + PDF)
+      # -----------------------------
+      - name: Build documentation
+        run: mkdocs build --clean
+
+      # -----------------------------
+      # 8. Check documentation links
+      # -----------------------------
+      - name: Check documentation links
+        run: linkchecker docs/
+
+      # -----------------------------
+      # 9. Archive workflows
+      # -----------------------------
+      - name: Archive workflows
+        run: |
+          mkdir -p ci_workflows_archive
+          cp .github/workflows/*.yml ci_workflows_archive/
+          zip -r "ci_workflows_${{ steps.ts.outputs.stamp }}.zip" ci_workflows_archive
+
+      # -----------------------------
+      # 10. Archive MetaPhysics documentation
+      # -----------------------------
+      - name: Archive MetaPhysics docs
+        run: |
+          mkdir -p metaphysics_docs_archive
+          cp -r docs/metapysics/*.md metaphysics_docs_archive/
+          cp -r docs/metapysics/assets metaphysics_docs_archive/
+          zip -r "metaphysics_docs_${{ steps.ts.outputs.stamp }}.zip" metaphysics_docs_archive
+
+      # -----------------------------
+      # 11. Archive CI logs
+      # -----------------------------
+      - name: Archive CI logs
+        run: |
+          mkdir -p ci_logs_archive
+          cp -r .github/workflows ci_logs_archive/workflows_snapshot
+          zip -r "ci_logs_${{ steps.ts.outputs.stamp }}.zip" ci_logs_archive
+
+      # -----------------------------
+      # 12. Upload artifacts to GitHub Actions
+      # -----------------------------
+      - name: Upload all archives
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-ci-archives
+          path: |
+            ci_workflows_*.zip
+            metaphysics_docs_*.zip
+            ci_logs_*.zip
+
+      # -----------------------------
+      # 13. Publish archives to GitHub Releases
+      # -----------------------------
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "ci-${{ steps.ts.outputs.stamp }}"
+          name: "CI Release ${{ steps.ts.outputs.stamp }}"
+          files: |
+            ci_workflows_*.zip
+            metaphysics_docs_*.zip
+            ci_logs_*.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

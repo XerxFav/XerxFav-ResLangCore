@@ -1,3 +1,5 @@
+mkdocs
+mkdocs-material
 sphinx>=7.0
 pytest>=7.0
 pytest

@@ -28,6 +28,7 @@ install-all:
 sync-reqs:
 	cp requirements/all.txt requirements.txt
 
+
 # Установка пакета в editable-режиме
 install:
 	pip install -e .
@@ -70,6 +71,22 @@ serve-doc:
 clean-doc:
 	rm -rf docs/
 
+# Генерация диаграмм MetaPhysics (DOT → SVG)
+metapysics-diagrams:
+	dot -Tsvg docs/metapysics/assets/diagrams/metapysics_dependencies.dot \
+		-o docs/metapysics/assets/diagrams/metapysics_dependencies.svg
+
+# Генерация всех диаграмм MetaPhysics (DOT → SVG)
+diagrams:
+	@echo "Generating all MetaPhysics diagrams..."
+	@for f in docs/metapysics/assets/diagrams/*.dot; do \
+		svg="$${f%.dot}.svg"; \
+		echo "  → $$svg"; \
+		dot -Tsvg "$$f" -o "$$svg"; \
+	done
+	@echo "Done."
+
+
 # Очистка артефактов
 clean:
 	rm -rf build dist *.egg-info
@@ -89,7 +106,7 @@ serve:
 	uvicorn arca_langlib.runtime.app:app --reload --host 0.0.0.0 --port 8000
 
 # Полный цикл
-all: deps bridges-all test coverage doc
+all: deps bridges-all test coverage doc metapysics-diagrams
 
 # Режим разработки
 dev:

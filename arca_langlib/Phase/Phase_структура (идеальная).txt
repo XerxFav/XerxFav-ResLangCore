@@ -1,0 +1,28 @@
+~/ResLang/ArcaLang/
+│
+├── arca_langlib/
+│   └── Phase/
+│       ├── core.arc
+│       ├── geometry.arc
+│       ├── dynamics.arc
+│       ├── simulation.arc
+│       ├── hilbert.arc
+│       ├── algometry.arc
+│       ├── operators.json
+│       └── __init__.py
+│
+├── tests/
+│   └── phase/
+│       ├── test_core.py
+│       ├── test_geometry.py
+│       ├── test_dynamics.py
+│       ├── test_simulation.py
+│       └── test_equilibrium.py
+│
+└── docs/
+    └── phase/
+        ├── Phase_Core.md
+        ├── Phase_Geometry.md
+        ├── Phase_Dynamics.md
+        ├── Phase_Simulation.md
+        └── Phase_Equilibrium.md

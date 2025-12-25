@@ -1,0 +1,14 @@
+site_name: ArcaLang
+docs_dir: docs
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Phase Modules:
+      - Core: phase/Phase_Core.md
+      - Geometry: phase/Phase_Geometry.md
+      - Dynamics: phase/Phase_Dynamics.md
+      - Simulation: phase/Phase_Simulation.md
+      - Equilibrium: phase/Phase_Equilibrium.md
+
