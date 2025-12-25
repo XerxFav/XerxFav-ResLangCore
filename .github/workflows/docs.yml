@@ -1,0 +1,58 @@
+name: Documentation & Diagrams
+
+on:
+  push:
+    paths:
+      - "docs/**"
+      - ".github/workflows/docs.yml"
+  pull_request:
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material
+          pip install mkdocs-mermaid2-plugin
+          pip install mkdocs-pdf-export-plugin
+          pip install linkchecker
+          sudo apt-get update
+          sudo apt-get install -y graphviz
+          npm install -g @mermaid-js/mermaid-cli
+
+      - name: Generate DOT diagrams
+        run: |
+          DIAG_DIR="docs/metapysics/assets/diagrams"
+          for f in $DIAG_DIR/*.dot; do
+            svg="${f%.dot}.svg"
+            dot -Tsvg "$f" -o "$svg"
+          done
+
+      - name: Generate Mermaid diagrams
+        run: |
+          mmdc -i docs/metapysics/metapysics_dependencies.md \
+               -o docs/metapysics/assets/diagrams/metapysics_dependencies_mermaid.svg
+
+      - name: Build documentation (HTML + PDF)
+        run: mkdocs build --clean
+
+      - name: Check documentation links
+        run: linkchecker docs/
+
+      - name: Upload documentation artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: documentation
+          path: site/
