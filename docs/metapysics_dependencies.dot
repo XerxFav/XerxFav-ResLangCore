@@ -1,0 +1,26 @@
+digraph MetaPhysicsDependencies {
+    rankdir=TB;
+    node [shape=box, style=rounded, fontsize=12];
+
+    A03 [label="03 Interaction Physys"];
+    A05 [label="05 Impedance & Hysteresis"];
+    A07 [label="07 Phase Network"];
+
+    subgraph cluster_validity {
+        label="Validity Layer";
+        style=dashed;
+        color=gray;
+
+        V1 [label="ν(P) — Validity Operator"];
+        V2 [label="𝓘(𝓒ₙ, Pₙ₊₁) — Iteration"];
+    }
+
+    A03 -> A05;
+    A05 -> A07;
+
+    A03 -> V1;
+    A05 -> V1;
+    A07 -> V2;
+
+    V1 -> V2;
+}
