@@ -3,7 +3,7 @@ import math
 import pytest
 
 from arca_langlib import ProtoFormOperator, Cluster, PotentialSpaceOperator, ResonanceOperator
-
+from arca_core.protoform_operator
 def test_invariant_phys():
     proto = ProtoFormOperator()
     result = proto.invariant_phys(V=10, V0=2, R=1)
@@ -78,3 +78,4 @@ def test_mass_energy_link():
     proto = ProtoFormOperator()
     ok = proto.mass_energy_link(E=4, R0=1, m0=1, v=1, C=1, psi0_obj=1)
     assert isinstance(ok, bool)
+ef test_validity_even_mode(): op = ProtoFormOperator() # Для базовой реализации validity_signature(P) == P mode = op.classify_category(P1="a", P2="b", P3="a") assert mode == "even_category" def test_validity_odd_mode(): op = ProtoFormOperator() mode = op.classify_category(P1="a", P2="b", P3="c") assert mode == "odd_category" def test_resonance_volume_basic(): op = ProtoFormOperator() result = op.resonance_volume(P1="a", P2="b", P3="a", V=2.0, V0=1.0, R=1.0) assert result["mode"] == "even_category" assert math.isclose(result["volume"], (2.0 - 1.0) / (4 * math.pi * 1.0**3)) assert result["signature"]["P1"] == "a" assert result["signature"]["P2"] == "b" assert result["signature"]["P3"] == "a" def test_iterate_configuration_even_then_odd(): op = ProtoFormOperator() C0 = {"params": []} C1, mode1 = op.iterate_configuration(C0, "a") assert C1["params"] == ["a"] assert C1["last_mode"] == "odd_category" assert mode1 == "odd_category" C2, mode2 = op.iterate_configuration(C1, "b") assert C2["params"] == ["a", "b"] assert C2["last_mode"] == "odd_category" assert mode2 == "odd_category" C3, mode3 = op.iterate_configuration(C2, "a") assert C3["params"] == ["a", "b", "a"] assert C3["last_mode"] == "even_category" assert mode3 == "even_category" 

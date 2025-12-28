@@ -1,94 +1,228 @@
+# arca_langlib/cli.py
 import argparse
-import sys
 import json
 
-def main():
-    parser = argparse.ArgumentParser(prog="arca", description="ArcaLang CLI — управление операторами")
-    subparsers = parser.add_subparsers(dest="command")
-
-    # casus reducibilis
-    casus_parser = subparsers.add_parser("casus", help="Решение кубических уравнений")
-    casus_parser.add_argument("--k", type=int, required=True)
-    casus_parser.add_argument("--b", type=int, required=True)
-    casus_parser.add_argument("--mode", choices=["auto", "trig", "cardano"], default="auto")
-    casus_parser.add_argument("--all-roots", action="store_true")
-    casus_parser.add_argument("--json", action="store_true")
-
-    # resonance
-    resonance_parser = subparsers.add_parser("resonance", help="Анализ фазовых переходов")
-    resonance_parser.add_argument("--input", type=str, help="Файл с данными")
-
-    # protoform
-    proto_parser = subparsers.add_parser("protoform", help="Работа с абстрактными фазовыми структурами")
-    proto_parser.add_argument("--describe", action="store_true")
-    proto_parser.add_argument("--method", type=str, help="Имя метода ProtoFormOperator")
-    proto_parser.add_argument("--args", type=str, help="Аргументы в формате key=value,...")
-    proto_parser.add_argument("--input", type=str, help="JSON-файл с аргументами")
+from arca_langlib.casus_reducibilis import (
+    resolve_casus_irreducibilis,
+    solve_cubic_trig_all,
+    solve_cubic,
+)
 
 
-    args = parser.parse_args()
+# ============================================================
+#  CASUS EXECUTION
+# ============================================================
 
-    if args.command == "casus":
-        from arca_langlib.casus_reducibilis import resolve_casus_irreducibilis, solve_cubic_trig_all, solve_cubic
-        if args.mode == "trig":
-            result = solve_cubic_trig_all(args.k, args.b)
-        elif args.mode == "cardano":
-            result = solve_cubic(args.k, args.b)
-        else:
-            result = resolve_casus_irreducibilis(args.k, args.b, all_roots=args.all_roots)
+def run_casus(
+    k: float,
+    b: float,
+    mode: str,
+    all_roots: bool,
+    json_mode: bool,
+    math_mode: str,
+) -> str:
+    """
+    Единая точка выполнения casus для CLI.
+    math_mode ∈ {"arca", "strict"}.
+    """
+    if mode == "trig":
+        # В trig-режиме показываем все корни (естественно для casus).
+        roots = solve_cubic_trig_all(k, b, math_mode=math_mode)
+        result = roots
+        header = "Тригонометрическая форма"
 
-        if args.json:
-            print(json.dumps({"k": args.k, "b": args.b, "mode": args.mode, "roots": result}, ensure_ascii=False))
-        else:
-            print(f"Результат: {result}")
+    elif mode == "cardano":
+        result = solve_cubic(k, b, math_mode=math_mode)
+        header = "Решение (формула Кардано)"
 
-    elif args.command == "resonance":
-        from arca_langlib.drivers.resonance import analyze_resonance
-        print(analyze_resonance(args.input))
+    else:  # auto
+        result = resolve_casus_irreducibilis(
+            k,
+            b,
+            all_roots=all_roots,
+            math_mode=math_mode,
+        )
+        header = "Все действительные корни" if all_roots else "Решение"
 
-    elif args.command == "protoform":
-        from arca_langlib.types.protoform_operator import ProtoFormOperator, describe_protoform
+    if json_mode:
+        return json.dumps(
+            {
+                "k": k,
+                "b": b,
+                "mode": mode,
+                "math_mode": math_mode,
+                "result": result,
+            },
+            ensure_ascii=False,
+        )
 
-        if args.describe:
-            print(describe_protoform())
-    elif args.method:
-            obj = ProtoFormOperator()
-            method = getattr(obj, args.method, None)
-            if not method:
-                print(f"Метод {args.method} не найден.")
-    else:
-            kwargs = {}
+    return f"{header}: {result}"
 
-            # 1. Если указан JSON-файл — загрузим базовые аргументы
-            if args.input:
-                try:
-                    with open(args.input, "r", encoding="utf-8") as f:
-                        kwargs = json.load(f)
-                except Exception as e:
-                    print(f"Ошибка чтения JSON: {e}")
-                    sys.exit(1)
 
-            # 2. Если указаны аргументы вручную — они дополняют или переопределяют JSON
-            if args.args:
-                for pair in args.args.split(","):
-                    if "=" in pair:
-                        k, v = pair.split("=")
-                        v = v.strip()
-                        # Автоматическое определение типа
-                        if v.lower() in ("true", "false"):
-                            val = v.lower() == "true"
-                        else:
-                            try:
-                                if "." in v:
-                                    val = float(v)
-                                else:
-                                    val = int(v)
-                            except ValueError:
-                                val = v
-                        kwargs[k.strip()] = val
+# ============================================================
+#  MAIN CLI PARSER
+# ============================================================
 
-            # 3. Вызов метода
-            else:       
-                result = method(**kwargs)
-                print(f"{args.method}({kwargs}) = {result}")
-                parser.print_help()
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="arca",
+        description="ArcaLang CLI — casus и DSL в собственной алгебре Arca",
+    )
+
+    # Глобальные опции (служебные)
+    parser.add_argument(
+        "--list",
+        action="store_true",
+        help="Показать список доступных команд",
+    )
+    parser.add_argument(
+        "--describe",
+        action="store_true",
+        help="Показать описание CLI",
+    )
+
+    # Подкоманды
+    sub = parser.add_subparsers(dest="cmd")
+
+    # --------------------------------------------------------
+    #  Подкоманда: casus
+    # --------------------------------------------------------
+    cas = sub.add_parser(
+        "casus",
+        help="Решение кубических уравнений (оператор casus)",
+    )
+    cas.add_argument(
+        "--k",
+        type=float,
+        required=True,
+        help="Параметр k в уравнении x^3 = kx + b",
+    )
+    cas.add_argument(
+        "--b",
+        type=float,
+        required=True,
+        help="Параметр b в уравнении x^3 = kx + b",
+    )
+    cas.add_argument(
+        "--mode",
+        choices=["auto", "trig", "cardano"],
+        default="auto",
+        help="Режим решения: auto / trig / cardano",
+    )
+    cas.add_argument(
+        "--all-roots",
+        action="store_true",
+        help="Вернуть все действительные корни (для auto)",
+    )
+    cas.add_argument(
+        "--json",
+        action="store_true",
+        help="Вывод в формате JSON",
+    )
+    cas.add_argument(
+        "--math-mode",
+        choices=["arca", "strict"],
+        default="arca",
+        help="Математический режим: arca (по умолчанию) или strict",
+    )
+
+    # --------------------------------------------------------
+    #  Подкоманда: eval (DSL)
+    # --------------------------------------------------------
+    ev = sub.add_parser(
+        "eval",
+        help="Выполнить выражение DSL ArcaLang",
+    )
+    ev.add_argument(
+        "expression",
+        type=str,
+        help='Выражение DSL, например: "casus(15,4)"',
+    )
+    ev.add_argument(
+        "--math-mode",
+        choices=["arca", "strict"],
+        default="arca",
+        help="Математический режим интерпретации выражения",
+    )
+
+    return parser
+# ============================================================
+#  MAIN DISPATCH LOGIC
+# ============================================================
+
+def main(argv=None) -> str:
+    parser = build_parser()
+    args = parser.parse_args(argv)
+
+    # --- Глобальные команды ---
+
+    if args.list:
+        return (
+            "Команды: casus, eval, "
+            "--list, --describe"
+        )
+
+    if args.describe:
+        return (
+            "ArcaLang CLI (Arca-алгебра по умолчанию):\n"
+            "  • casus --k K --b B [--mode ...] [--math-mode ...]\n"
+            "  • eval \"EXPR\" [--math-mode ...]\n"
+            "  • --list       — список команд\n"
+            "  • --describe   — описание CLI\n"
+        )
+
+    # --- Подкоманда casus ---
+
+    if args.cmd == "casus":
+        return run_casus(
+            k=args.k,
+            b=args.b,
+            mode=args.mode,
+            all_roots=args.all_roots,
+            json_mode=args.json,
+            math_mode=args.math_mode,
+        )
+
+    # --- Подкоманда eval (DSL) ---
+
+    if args.cmd == "eval":
+        # Здесь пока примитивная заглушка DSL.
+        # Позже сюда подключим настоящий парсер/evaluator ArcaLang.
+        expr = args.expression.strip()
+
+        # Простая форма: casus(k,b)
+        if expr.startswith("casus(") and expr.endswith(")"):
+            inner = expr[len("casus("):-1]
+            parts = [p.strip() for p in inner.split(",")]
+            if len(parts) >= 2:
+                k = float(parts[0])
+                b = float(parts[1])
+                result = resolve_casus_irreducibilis(
+                    k,
+                    b,
+                    all_roots=False,
+                    math_mode=args.math_mode,
+                )
+                return f"DSL casus: {result}"
+
+        # В будущем: phase algebra { x = casus(15,4) } и полноформатный DSL.
+        return f"Ошибка DSL: пока поддерживается только форма casus(k,b)"
+
+    # --- Если подкоманда не указана ---
+
+    return parser.format_help()
+
+
+# ============================================================
+#  ENTRYPOINT
+# ============================================================
+
+def run():
+    """Точка входа для CLI, всегда печатает вывод."""
+    out = main()
+    if out is not None:
+        print(out)
+
+
+if __name__ == "__main__":
+    run()

@@ -20,6 +20,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      #------------------------------- 
+      #Cache pip
+      #------------------------------- 
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+
       # -----------------------------
       # 2. Generate timestamp for versioning
       # -----------------------------
@@ -75,7 +87,7 @@ jobs:
       # -----------------------------
       - name: Build documentation
         run: mkdocs build --clean
-
+             mkdocs build --strict
       # -----------------------------
       # 8. Check documentation links
       # -----------------------------

@@ -84,3 +84,31 @@ flowchart LR
     B --> C[(0+1)^2]
     C --> D[√2]
     D --> E[Непрерывность]
+## Оператор валидности и категориальная мода
+
+ArcaLang вводит абстрактный оператор валидности для тройки параметров:
+
+```arcalang
+validity(P1, P2, P3) -> mode
+let mode = validity(P1, P2, P3)
+
+
+где:
+
+    P1, P2, P3 — параметры, заданные в распределённо‑параметрическом объёме {4πR^3 r^2 (V - V0)},
+
+    mode ∈ {even_category, odd_category}.
+
+Интуитивно:
+
+    even_category — валидность P3 согласована с валидностью пары (P1, P2),
+    odd_category — P3 нарушает исходную валидность комбинации (P1, P2).
+Минимальный пример использования:
+let mode = validity(P1, P2, P3)
+if mode == even_category {
+    resonance::stable(P1, P2, P3)
+} else {
+    resonance::defect(P1, P2, P3)
+}
+
+Реализация по умолчанию отображается на ProtoFormOperator.classify_category(...).
