@@ -1,14 +1,50 @@
 site_name: ArcaLang
 docs_dir: docs
+extra:
+  version: "1.0.0"
 theme:
   name: material
+INHERIT: mkdocs_version.yml
+plugins:
+  - search
+  - with-pdf:
+      output_path: pdf/ArcaLang_Documentation.pdf
+      cover_title: "ArcaLang — Ontological & Analytic Documentation"
+      cover_subtitle: "Metapysics Layer — Manifest + Atlas"
+      cover_page: docs/pdf_cover.html
+      author: "Arctur"
+      toc_title: "Содержание"
+      enabled_if_env: ENABLE_PDF_EXPORT
 
 nav:
   - Home: index.md
+  - Version: VERSION.md
   - Phase Modules:
       - Core: phase/Phase_Core.md
       - Geometry: phase/Phase_Geometry.md
       - Dynamics: phase/Phase_Dynamics.md
       - Simulation: phase/Phase_Simulation.md
       - Equilibrium: phase/Phase_Equilibrium.md
+      - Algometry: phase/Phase_Algometry.md
+      - Hilbert: phase/Phase_Hilbert.md
+      - Runtime: phase/Phase_Runtime.md
+      - Validity Operator: phase/validity_operator.md
+  - Metapysics Layer:
+      - Ontological Manifest: metapysics/ArcaLang_Ontological_Manifest.md
+      - Analytic Atlas: metapysics/ArcaLang_Analytic_Atlas.md
+      - Intro Physys: metapysics/00_intro_physys.md
+      - Singular Physys: metapysics/01_singular_physys.md
+      - Adaptive Physys: metapysics/02_adaptive_physys.md
+      - Interaction Physys: metapysics/03_interaction_physys.md
+      - Phase Memory: metapysics/04_phase_memory.md
+      - Impedance Hysteresis: metapysics/05_impedance_hysteresis.md
+      - Resonance Node: metapysics/06_resonance_node.md
+      - Phase Network: metapysics/07_phase_network.md
+      - Phase Operators: metapysics/08_phase_operators.md
+      - Functors & Categories: metapysics/09_functors_categories.md
+      - Superposition: metapysics/10_superposition.md
+      - ResLang Architecture: metapysics/11_reslang_architecture.md
+      - Timeline: metapysics/12_timeline_30aug.md
+      - Dependencies Map: metapysics/metapysics_dependencies.md
+      - Structure Overview: metapysics/structure.md
 
